@@ -1,0 +1,405 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPlYC2JmKi/wa69HPUvonkh",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/SANGEETHAPAULRAJ/mypythonsessions/blob/main/quantum%20Circuit1\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "3XHYJu8InE_w"
+      },
+      "outputs": [],
+      "source": [
+        "import numpy as np"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install qiskit"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KgqDcwA7nITH",
+        "outputId": "a020e4b9-ce7f-4b91-b37b-1d4307a6397a"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Collecting qiskit\n",
+            "  Downloading qiskit-0.39.3.tar.gz (13 kB)\n",
+            "Collecting qiskit-terra==0.22.3\n",
+            "  Downloading qiskit_terra-0.22.3-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (4.8 MB)\n",
+            "\u001b[K     |████████████████████████████████| 4.8 MB 5.1 MB/s \n",
+            "\u001b[?25hCollecting qiskit-aer==0.11.1\n",
+            "  Downloading qiskit_aer-0.11.1-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (19.2 MB)\n",
+            "\u001b[K     |████████████████████████████████| 19.2 MB 5.5 MB/s \n",
+            "\u001b[?25hCollecting qiskit-ibmq-provider==0.19.2\n",
+            "  Downloading qiskit_ibmq_provider-0.19.2-py3-none-any.whl (240 kB)\n",
+            "\u001b[K     |████████████████████████████████| 240 kB 56.4 MB/s \n",
+            "\u001b[?25hRequirement already satisfied: numpy>=1.16.3 in /usr/local/lib/python3.7/dist-packages (from qiskit-aer==0.11.1->qiskit) (1.21.6)\n",
+            "Requirement already satisfied: scipy>=1.0 in /usr/local/lib/python3.7/dist-packages (from qiskit-aer==0.11.1->qiskit) (1.7.3)\n",
+            "Collecting requests-ntlm>=1.1.0\n",
+            "  Downloading requests_ntlm-1.1.0-py2.py3-none-any.whl (5.7 kB)\n",
+            "Collecting websockets>=10.0\n",
+            "  Downloading websockets-10.4-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (106 kB)\n",
+            "\u001b[K     |████████████████████████████████| 106 kB 55.9 MB/s \n",
+            "\u001b[?25hRequirement already satisfied: python-dateutil>=2.8.0 in /usr/local/lib/python3.7/dist-packages (from qiskit-ibmq-provider==0.19.2->qiskit) (2.8.2)\n",
+            "Collecting websocket-client>=1.0.1\n",
+            "  Downloading websocket_client-1.4.2-py3-none-any.whl (55 kB)\n",
+            "\u001b[K     |████████████████████████████████| 55 kB 3.5 MB/s \n",
+            "\u001b[?25hRequirement already satisfied: urllib3>=1.21.1 in /usr/local/lib/python3.7/dist-packages (from qiskit-ibmq-provider==0.19.2->qiskit) (1.24.3)\n",
+            "Requirement already satisfied: requests>=2.19 in /usr/local/lib/python3.7/dist-packages (from qiskit-ibmq-provider==0.19.2->qiskit) (2.23.0)\n",
+            "Collecting tweedledum<2.0,>=1.1\n",
+            "  Downloading tweedledum-1.1.1-cp37-cp37m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (943 kB)\n",
+            "\u001b[K     |████████████████████████████████| 943 kB 57.2 MB/s \n",
+            "\u001b[?25hRequirement already satisfied: psutil>=5 in /usr/local/lib/python3.7/dist-packages (from qiskit-terra==0.22.3->qiskit) (5.4.8)\n",
+            "Collecting symengine>=0.9\n",
+            "  Downloading symengine-0.9.2-cp37-cp37m-manylinux2010_x86_64.whl (37.5 MB)\n",
+            "\u001b[K     |████████████████████████████████| 37.5 MB 49 kB/s \n",
+            "\u001b[?25hRequirement already satisfied: dill>=0.3 in /usr/local/lib/python3.7/dist-packages (from qiskit-terra==0.22.3->qiskit) (0.3.6)\n",
+            "Collecting retworkx>=0.11.0\n",
+            "  Downloading retworkx-0.12.1-py3-none-any.whl (10 kB)\n",
+            "Requirement already satisfied: typing-extensions in /usr/local/lib/python3.7/dist-packages (from qiskit-terra==0.22.3->qiskit) (4.1.1)\n",
+            "Requirement already satisfied: sympy>=1.3 in /usr/local/lib/python3.7/dist-packages (from qiskit-terra==0.22.3->qiskit) (1.7.1)\n",
+            "Requirement already satisfied: importlib-metadata<5.0 in /usr/local/lib/python3.7/dist-packages (from qiskit-terra==0.22.3->qiskit) (4.13.0)\n",
+            "Collecting stevedore>=3.0.0\n",
+            "  Downloading stevedore-3.5.2-py3-none-any.whl (50 kB)\n",
+            "\u001b[K     |████████████████████████████████| 50 kB 5.4 MB/s \n",
+            "\u001b[?25hCollecting ply>=3.10\n",
+            "  Downloading ply-3.11-py2.py3-none-any.whl (49 kB)\n",
+            "\u001b[K     |████████████████████████████████| 49 kB 6.0 MB/s \n",
+            "\u001b[?25hCollecting shared-memory38\n",
+            "  Downloading shared_memory38-0.1.2-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl (25 kB)\n",
+            "Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.7/dist-packages (from importlib-metadata<5.0->qiskit-terra==0.22.3->qiskit) (3.10.0)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil>=2.8.0->qiskit-ibmq-provider==0.19.2->qiskit) (1.15.0)\n",
+            "Requirement already satisfied: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests>=2.19->qiskit-ibmq-provider==0.19.2->qiskit) (3.0.4)\n",
+            "Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.7/dist-packages (from requests>=2.19->qiskit-ibmq-provider==0.19.2->qiskit) (2.10)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests>=2.19->qiskit-ibmq-provider==0.19.2->qiskit) (2022.9.24)\n",
+            "Collecting ntlm-auth>=1.0.2\n",
+            "  Downloading ntlm_auth-1.5.0-py2.py3-none-any.whl (29 kB)\n",
+            "Collecting cryptography>=1.3\n",
+            "  Downloading cryptography-38.0.4-cp36-abi3-manylinux_2_24_x86_64.whl (4.0 MB)\n",
+            "\u001b[K     |████████████████████████████████| 4.0 MB 42.8 MB/s \n",
+            "\u001b[?25hRequirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.7/dist-packages (from cryptography>=1.3->requests-ntlm>=1.1.0->qiskit-ibmq-provider==0.19.2->qiskit) (1.15.1)\n",
+            "Requirement already satisfied: pycparser in /usr/local/lib/python3.7/dist-packages (from cffi>=1.12->cryptography>=1.3->requests-ntlm>=1.1.0->qiskit-ibmq-provider==0.19.2->qiskit) (2.21)\n",
+            "Collecting rustworkx==0.12.1\n",
+            "  Downloading rustworkx-0.12.1-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.9 MB)\n",
+            "\u001b[K     |████████████████████████████████| 1.9 MB 48.5 MB/s \n",
+            "\u001b[?25hCollecting pbr!=2.1.0,>=2.0.0\n",
+            "  Downloading pbr-5.11.0-py2.py3-none-any.whl (112 kB)\n",
+            "\u001b[K     |████████████████████████████████| 112 kB 75.5 MB/s \n",
+            "\u001b[?25hRequirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.7/dist-packages (from sympy>=1.3->qiskit-terra==0.22.3->qiskit) (1.2.1)\n",
+            "Building wheels for collected packages: qiskit\n",
+            "  Building wheel for qiskit (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for qiskit: filename=qiskit-0.39.3-py3-none-any.whl size=12262 sha256=1b5c5a2a27ddfa78d5244f3849ac7ecada2e3f4b279ec682fd4d9d3c1a041bf6\n",
+            "  Stored in directory: /root/.cache/pip/wheels/b1/36/b2/6eb4e6a961c404dce1da09f558c3d69f2bb7eea75e253c0890\n",
+            "Successfully built qiskit\n",
+            "Installing collected packages: rustworkx, pbr, tweedledum, symengine, stevedore, shared-memory38, retworkx, ply, ntlm-auth, cryptography, websockets, websocket-client, requests-ntlm, qiskit-terra, qiskit-ibmq-provider, qiskit-aer, qiskit\n",
+            "Successfully installed cryptography-38.0.4 ntlm-auth-1.5.0 pbr-5.11.0 ply-3.11 qiskit-0.39.3 qiskit-aer-0.11.1 qiskit-ibmq-provider-0.19.2 qiskit-terra-0.22.3 requests-ntlm-1.1.0 retworkx-0.12.1 rustworkx-0.12.1 shared-memory38-0.1.2 stevedore-3.5.2 symengine-0.9.2 tweedledum-1.1.1 websocket-client-1.4.2 websockets-10.4\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from qiskit import QuantumCircuit, transpile"
+      ],
+      "metadata": {
+        "id": "0Cndk26anLsH"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from qiskit.providers.aer import QasmSimulator"
+      ],
+      "metadata": {
+        "id": "pVG9zfuvndO6"
+      },
+      "execution_count": 5,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from qiskit.visualization import plot_histogram"
+      ],
+      "metadata": {
+        "id": "nf9dWs4HnjOR"
+      },
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "simulator = QasmSimulator()"
+      ],
+      "metadata": {
+        "id": "cqzX-AI4ntSx"
+      },
+      "execution_count": 7,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "circuit = QuantumCircuit(2, 2)"
+      ],
+      "metadata": {
+        "id": "0IDkik7bn0w0"
+      },
+      "execution_count": 8,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "circuit.h(0)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "35b7A3r1n9cc",
+        "outputId": "108ac4d4-889a-4850-978e-984d113ddc5b"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<qiskit.circuit.instructionset.InstructionSet at 0x7f991d220fd0>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "circuit.cx(0, 1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DQZO9ilPoI11",
+        "outputId": "8a57644a-9f84-48a3-e55a-f84acb7b8ff2"
+      },
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<qiskit.circuit.instructionset.InstructionSet at 0x7f991d224350>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "circuit.measure([0,1], [0,1])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UrbkJMf-oQSy",
+        "outputId": "e67ae71b-292c-4b08-98b8-5f19264f2ff1"
+      },
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<qiskit.circuit.instructionset.InstructionSet at 0x7f991d267d50>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 11
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "compiled_circuit = transpile(circuit, simulator)"
+      ],
+      "metadata": {
+        "id": "AS-bVH6uoYmz"
+      },
+      "execution_count": 12,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "job = simulator.run(compiled_circuit, shots=1000)"
+      ],
+      "metadata": {
+        "id": "SJ9izk4uojEd"
+      },
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "result = job.result()"
+      ],
+      "metadata": {
+        "id": "Na1Xi09Noq7-"
+      },
+      "execution_count": 14,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "counts = result.get_counts(compiled_circuit)\n",
+        "print(\"\\nTotal count for 00 and 11 are:\",counts)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jBkV4DxRowqd",
+        "outputId": "3d6421ac-9e45-44c0-f337-01fd00742650"
+      },
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "Total count for 00 and 11 are: {'11': 508, '00': 492}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "circuit.draw()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 125
+        },
+        "id": "tu0DWFUho69U",
+        "outputId": "0304e764-e3f5-49ff-8869-64c2bf09e977"
+      },
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "     ┌───┐     ┌─┐   \n",
+              "q_0: ┤ H ├──■──┤M├───\n",
+              "     └───┘┌─┴─┐└╥┘┌─┐\n",
+              "q_1: ─────┤ X ├─╫─┤M├\n",
+              "          └───┘ ║ └╥┘\n",
+              "c: 2/═══════════╩══╩═\n",
+              "                0  1 "
+            ],
+            "text/html": [
+              "<pre style=\"word-wrap: normal;white-space: pre;background: #fff0;line-height: 1.1;font-family: &quot;Courier New&quot;,Courier,monospace\">     ┌───┐     ┌─┐   \n",
+              "q_0: ┤ H ├──■──┤M├───\n",
+              "     └───┘┌─┴─┐└╥┘┌─┐\n",
+              "q_1: ─────┤ X ├─╫─┤M├\n",
+              "          └───┘ ║ └╥┘\n",
+              "c: 2/═══════════╩══╩═\n",
+              "                0  1 </pre>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 16
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plot_histogram(counts)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 331
+        },
+        "id": "TJhnSNewpFyJ",
+        "outputId": "11de8f92-9276-4d42-eb17-b495a09b9b2a"
+      },
+      "execution_count": 17,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<Figure size 504x360 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {},
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "C_8h2egvpQLh"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
